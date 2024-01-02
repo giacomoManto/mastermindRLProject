@@ -4,9 +4,7 @@ Based on the board game [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(b
 
 # Implementation and Strategies
 
-The solver has two main methods `adjustMoves` and `makeGuess`. Adjust moves calls the `prune` method which removes moves from the move base if they are not valid according to the black and white peg feedback received from the game. 
-
-
+The solver has two main methods `adjustMoves` and `makeGuess`. Adjust moves calls the `prune` method which removes moves from the move base if they are not valid according to the black and white peg feedback received from the game.
 
 ## Random
 
@@ -26,8 +24,8 @@ It slightly decreased our average completion compared to random selection but no
 
 For each different strategy I ran 10,000 games and took the average guesses it took to complete the games. Along with the maximum guesses taken to win over the 10,000 games
 
-| Strategy         | Average Completion Guesses | High |
-|------------------|:--------------------------:|:----:|
-| Most Occurences  |           5.7856           |   9  |
-| Random Selection |           4.6437           |   8  |
-| MiniMax          |           4.4819           |   6  |
+| Strategy         | Average Guesses to Win | High |
+|------------------|:----------------------:|:----:|
+| Most Occurences  |         5.7856         |   9  |
+| Random Selection |         4.6437         |   8  |
+| MiniMax          |         4.4819         |   6  |
