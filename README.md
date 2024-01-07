@@ -26,7 +26,7 @@ Same minimax algorithm as above but checks every single possible peg-combination
 
 # Results
 
-For each different strategy I ran 10,000 games and took the average guesses it took to complete the games. Along with the maximum guesses taken to win over the 10,000 games
+For each different strategy I ran 10,000 games and took the average guesses it took to complete the games and the maximum guesses taken to win over the 10,000 games
 
 | Strategy          | Average Guesses to Win | High |
 |-------------------|:----------------------:|:----:|
