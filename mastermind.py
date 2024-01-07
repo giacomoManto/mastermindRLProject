@@ -2,8 +2,12 @@ import random
 
 
 class board(object):
-    def __init__(self):
-        self.key : list[int] = random.choices(range(6), k=4)
+    def __init__(self, pegs: list[int] = []):
+        if len(pegs) == 0:
+            self.key : list[int] = random.choices(range(6), k=4)
+        else:
+            self.key = pegs
+            
         self.history = []
     
     def makeGuess(self, guessList: list[int]) -> tuple[int]:

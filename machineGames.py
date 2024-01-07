@@ -4,16 +4,18 @@ from tqdm import tqdm
 import multiprocessing as mp
 
 
-def run_test():
+def run_test(save = False):
     m = board()
-    s = solver.mini_max()
-
+    s = solver.mini_max_extended()
+    
     for a in range(1, 13):
         guess = s.makeGuess()
         response = m.makeGuess(guess)
         s.adjustMoves(guess, response)  
         if response[0] == 4:
             return a
+
+    
 
 if __name__ == '__main__':
     count = 10000
@@ -29,7 +31,7 @@ if __name__ == '__main__':
         result_list_tqdm.append(job.get())
 
     results = result_list_tqdm
-
+    
     print(sum(results) / len(results))
     print(max(results))
     print(min(results))

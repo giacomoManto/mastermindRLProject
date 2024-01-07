@@ -1,5 +1,6 @@
 import random, sys
 from mastermind import board
+import pickle
 
 
 colors = list(range(6))
@@ -22,7 +23,7 @@ class solver(object):
         pass
     
     def adjustMoves(self, guess, response):
-        self.history.append((guess, response))
+        self.history.append((tuple(guess), tuple(response)))
         self.moves = self.prune(guess, response)
     
     def prune(self, guess, response) -> list[list]:
@@ -78,7 +79,7 @@ class most_occurences(solver):
         if potGuess in self.moves:
             return potGuess
 
-class mini_max(solver):
+class mini_max_shortened(solver):
     def __init__(self):
         super().__init__()
         self.pinCombos = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (3, 0)]
@@ -113,3 +114,43 @@ class mini_max(solver):
         else:
             random.choice(self.moves)
 
+class mini_max_extended(solver):
+    miniMaxLookup = {}
+    
+    def __init__(self):
+        super().__init__()
+        self.pinCombos = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 1), (1, 2), (1, 3), (2, 0), (2, 1), (2, 2), (3, 0)]
+    
+    def makeGuess(self):
+        if len(self.history) == 0:
+            return [0, 0, 1, 1]
+        
+        if len(self.moves) == 1:
+            return self.moves[0]
+        
+        if tuple(self.history) in mini_max_extended.miniMaxLookup:
+            return mini_max_extended.miniMaxLookup[tuple(self.history)]
+        
+        minimax = sys.maxsize
+
+        minimaxedMove = None
+
+        for move in self.allMoves:
+            # Don't guess a previously made move
+            if move in [a[1] for a in self.history]:
+                continue
+
+            localMax = 0
+
+            for pin in self.pinCombos:
+                localMax = max(localMax, len(self.prune(move, pin)))
+
+            if localMax > 0 and localMax < minimax:
+                minimaxedMove = move
+                minimax = localMax
+
+        if minimaxedMove is not None:
+            mini_max_extended.miniMaxLookup[tuple(self.history)] = minimaxedMove
+            return minimaxedMove
+        else:
+            random.choice(self.moves)
